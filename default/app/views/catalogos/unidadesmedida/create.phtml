@@ -1,0 +1,32 @@
+<?php echo Ajax::form('myModal', "catalogos/unidadesmedida/create", 'form-horizontal', 'post', 'role="form"')?>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="unidadesm.unidad_nombre" class="col-lg-4 control-label">Unidad de Medida</label>
+                        <div class="col-lg-8">
+                            <?php echo Form::text('unidadesm.unidad_nombre', 'class="form-control" placeholder="Nombre de la unidad de medida" required', NULL)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="unidadesm.unidad_estado" class="col-lg-4 control-label">Estatus</label>
+                        <div class="col-lg-8">
+                            <?php echo Form::select('unidadesm.unidad_estado', $estatus, 'class="form-control" required')?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <?php echo Form::button('Cerrar', 'class="btn btn-default pull-left" data-dismiss="modal"') ?>
+            <?php echo Form::submit('Guardar', 'class="btn btn-primary"') ?>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<?php echo Form::close(); ?>

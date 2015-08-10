@@ -1,0 +1,254 @@
+<?php Tag::css('AdminLTE/plugins/datatables/dataTables.bootstrap').PHP_EOL ?>
+<?php Tag::css('validation/validationEngine.jquery').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        
+    <?php View::flash(); ?>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Custom Tabs (Pulled to the right) -->
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs pull-right ">
+                        <li class="active"><?php echo Html::link('#general', 'Generales', 'data-toggle="tab"') ?></li>
+                        <li><?php echo Html::link('#dir', 'Direcciones', 'data-toggle="tab"') ?></li>
+                        <li><?php echo Html::link('#cuen', 'Cuentas', 'data-toggle="tab"') ?></li>
+                        <li><?php echo Html::link('#fact', 'Facturación', 'data-toggle="tab"') ?></li>
+                        <li class="pull-left header"><i class="fa fa-building"></i> <?php echo "Datos de ".$empresas->e_nombrecorto ?></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="general">
+                            <?php echo Form::open('config/empresas/edit', 'post', 'role="form" class="form-horizontal" id="empresas-val"')?>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="empresas_e_nombrecorto" class="col-lg-4 control-label">Nombre corto</label>
+                                        <div class="col-lg-8">
+                                            <?php echo Form::text('empresas.e_nombrecorto', 'class="validate[required] form-control" placeholder="Nombre de empresa"', NULL)?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="empresas_e_razonsocial" class="col-lg-4 control-label">Razon Social</label>
+                                        <div class="col-lg-8">
+                                            <?php echo Form::text('empresas.e_razonsocial', 'class="validate[required] form-control" placeholder="Razon social"', NULL)?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="empresas_e_rfc" class="col-lg-4 control-label">R.F.C.</label>
+                                        <div class="col-lg-8">
+                                            <?php echo Form::text('empresas.e_rfc', 'class="validate[required,custom[rfc]] form-control" placeholder="R.F.C. de la empresa"', NULL)?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="col-md-12">
+                                        <div class="row fileupload-buttonbar">
+                                            <div class="col-md-6" style="margin-bottom: 20px;">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <?php echo DwForm::upload('logotipo', array('data-to'=>PUBLIC_PATH.'config/empresas/upload/', 'data-size'=>5000000, 'data-files'=>'images', 'data-success'=>'loadImg'), ' Agregar Logotipo'); ?>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="picture-profile text-center text-middle shadow-dark" style="margin: 5px auto 0px;">
+                                                            <?php echo DwHtml::img("upload/empresas/$empresas->e_logo", "Logotipo", array('id'=>'img-empresa')); ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php echo DwForm::hidden('empresas.e_logo', NULL, $empresas->e_logo); ?>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="box-footer">
+                                <?php echo DwForm::cancel(); ?>
+                                <?php echo Form::hidden('empresas.id') ?>
+                                <?php echo Form::submit('Guardar', 'class="btn btn-primary pull-right"') ?>
+                            </div>
+                            <?php echo Form::close(); ?>
+                        </div><!-- /.tab-pane DIRECCIONES -->
+                        <div class="tab-pane" id="dir">
+                            <h3 class="box-title">
+                                <?php echo Form::open('config/Empresasdireccion/createEmpDir/', 'post', 'class="form-inline"')?>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="empresasdireccion_direcciones_id">Direcciones</label>
+                                        <?php echo Form::dbSelect('empresasdireccion.direcciones_id', 'nombre_dir', array('direcciones','buscarDir'), '-- Seleccione --', 'class="form-control"') ?>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="empresasdireccion_empresas_id">Empresas</label>
+                                        <?php echo Form::hidden('empresasdireccion.empresas_id', NULL, $empresas->id)?>
+                                    </div>
+                                    <?php echo Form::submit('Asigna direccion', 'class="btn btn-default btn-flat"')?>
+                                    <?php echo Ajax::link("config/direcciones/create/$empresas->id", '<i class="fa fa-plus"></i> Agregar Dirección', 'myModal', 'btn btn-primary btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                                <?php echo Form::close()?>
+                            </h3> 
+                            
+                            <table id="tableDirecciones" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Clave</th>
+                                        <th>Nombre</th>
+                                        <th>Calle</th>
+                                        <th>Num. Exterior</th>
+                                        <th>Colonia</th>
+                                        <th>C.P.</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                     <?php foreach ($direcciones as $dir) :?>
+                                    <tr>
+                                        <td><?php echo $dir->id ?></td>
+                                        <td><?php echo $dir->nombre_dir ?></td>
+                                        <td><?php echo $dir->calle ?></td>
+                                        <td><?php echo $dir->num_esterior ?></td>
+                                        <td><?php echo $dir->colonia ?></td>
+                                        <td><?php echo $dir->codigo_postal?></td>
+                                        <td>
+                                            <?php echo Ajax::link("config/direcciones/edit/$empresas->id/$dir->direcciones_id", '<i class="fa fa-edit"></i> Editar', 'myModal', 'btn btn-default btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach;?>
+                                </tbody>
+                            </table>  
+                            <div class="box-footer">
+                                <?php echo DwForm::cancel(); ?>
+                            </div>
+                        </div><!-- /.tab-pane -->
+                        <div class="tab-pane" id="cuen">
+                            <h3 class="box-title">
+                                <?php echo Form::open('config/empresascuentas/createEmpCue/', 'post', 'class="form-inline"')?>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="empresascuentas_cuentas_id">Cuentas</label>
+                                        <?php echo Form::dbSelect('empresascuentas.cuentas_id', 'cuenta', array('cuentas','buscarCuentas'), '-- Seleccione --', 'class="form-control"') ?>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="empresascuentas_empresas_id">Empresas</label>
+                                        <?php echo Form::hidden('empresascuentas.empresas_id', NULL, $empresas->id)?>
+                                    </div>
+                                    <?php echo Form::submit('Asigna cuenta', 'class="btn btn-default btn-flat"')?>
+                                    <?php echo Ajax::link("config/cuentas/create/$empresas->id", '<i class="fa fa-plus"></i> Agregar Cuenta', 'myModal', 'btn btn-primary btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                                <?php echo Form::close()?>
+                            </h3>    
+                            <table id="tableCuentas" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Clave</th>
+                                        <th>cuenta</th>
+                                        <th>Sucursal</th>
+                                        <th>Clave Ineter.</th>
+                                        <th>Referencia</th>
+                                        <th>Banco</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                     <?php foreach ($cuentas as $cuenta) :?>
+                                    <tr>
+                                        <td><?php echo $cuenta->id ?></td>
+                                        <td><?php echo $cuenta->cuenta ?></td>
+                                        <td><?php echo $cuenta->sucursal ?></td>
+                                        <td><?php echo $cuenta->claveinterbancaria ?></td>
+                                        <td><?php echo $cuenta->cu_referencia ?></td>
+                                        <td><?php echo $cuenta->b_nombrecorto?></td>
+                                        <td>
+                                            <?php echo Ajax::link("config/cuentas/edit/$empresas->id/$cuenta->cuentas_id", '<i class="fa fa-edit"></i> Editar', 'myModal', 'btn btn-default btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach;?>
+                                </tbody>
+                            </table> 
+                            <div class="box-footer">
+                                <?php echo DwForm::cancel(); ?>
+                            </div>
+                        </div><!-- /.tab-pane -->
+                        <div class="tab-pane" id="fact">
+                            <h3 class="box-title">
+                                <?php echo Ajax::link("config/configfactura/create/$empresas->id", '<i class="fa fa-plus"></i> Agregar datos de facturación', 'myModal', 'btn btn-primary btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                                <?php // echo Html::link("config/configfactura/create/$empresas->id", '<i class="fa fa-plus"></i> Agregar datos de facturación','class="btn btn-primary btn-flat"')?>
+                            </h3>    
+                            <table id="tableConfigfactura" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Clave</th>
+                                        <th>Fol. inicia</th>
+                                        <th>Fol. final</th>
+                                        <th>Fol. entregado</th>
+                                        <th>Certificado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                     <?php foreach ($configfactura as $cf) :?>
+                                    <tr>
+                                        <td><?php echo $cf->id ?></td>
+                                        <td><?php echo $cf->folioInicial ?></td>
+                                        <td><?php echo $cf->folioFinal ?></td>
+                                        <td><?php echo $cf->folioUentregado?></td>
+                                        <td><?php echo $cf->numerocertificado ?></td>
+                                        <td>
+                                            <?php echo Ajax::link("config/configfactura/edit/$empresas->id/$cf->id", '<i class="fa fa-edit"></i> Editar', 'myModal', 'btn btn-default btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach;?>
+                                </tbody>
+                            </table> 
+                            <div class="box-footer">
+                                <?php echo DwForm::cancel(); ?>
+                            </div>
+                        </div><!-- /.tab-pane -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+                    </div><!-- /.tab-content -->
+                </div><!-- nav-tabs-custom -->
+            </div><!-- /.col -->
+        </div> <!-- /.row -->
+    </section>
+</div>
+<!-- Data Table -->
+<?php echo Tag::js('AdminLTE/plugins/datatables/jquery.dataTables.min').PHP_EOL; ?>
+<?php echo Tag::js('AdminLTE/plugins/datatables/dataTables.bootstrap.min').PHP_EOL; ?>
+<?php echo Tag::js('validation/jquery.validationEngine-es').PHP_EOL; ?>
+<?php echo Tag::js('validation/jquery.validationEngine').PHP_EOL; ?>
+
+<script type="text/javascript">
+    $(function () {
+        $("#tableDirecciones").DataTable({
+            responsive: true,
+            "oLanguage": {
+                "sUrl": "<?php echo PUBLIC_PATH; ?>javascript/AdminLTE/plugins/datatables/datatable.espanol.txt"	
+            },
+            "aaSorting":[[3,"asc"]]
+        });
+    });
+    $(function () {
+        $("#tableCuentas").DataTable({
+            responsive: true,
+            "oLanguage": {
+                "sUrl": "<?php echo PUBLIC_PATH; ?>javascript/AdminLTE/plugins/datatables/datatable.espanol.txt"	
+            },
+            "aaSorting":[[3,"asc"]]
+        });
+    });
+    $(function () {
+        $("#tableConfigfactura").DataTable({
+            responsive: true,
+            "oLanguage": {
+                "sUrl": "<?php echo PUBLIC_PATH; ?>javascript/AdminLTE/plugins/datatables/datatable.espanol.txt"	
+            },
+            "aaSorting":[[3,"asc"]]
+        });
+    });
+    
+    function loadImg(result, input) {
+        $("#empresas_e_logo").val(result.name);
+        $("#img-empresa").attr('src', '<?php echo PUBLIC_PATH; ?>img/upload/empresas/'+result.name);                
+    }
+    
+    $("#empresas-val").validationEngine();
+</script>

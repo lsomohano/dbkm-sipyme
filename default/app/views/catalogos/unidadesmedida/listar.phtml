@@ -1,0 +1,72 @@
+<?php Tag::css('AdminLTE/plugins/datatables/dataTables.bootstrap').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    
+    <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        
+    <?php View::flash(); ?>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            <?php echo Ajax::link('catalogos/unidadesmedida/create', '<i class="fa fa-plus"></i> Agregar Unidad', 'myModal', 'btn btn-primary btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                        </h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="tableUnidadesM" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Clave</th>
+                                    <th>Unidad de medida</th>
+                                    <th>Estatus</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                 <?php foreach ($unidadesMedidas as $unidadesM) :?>
+                                <tr>
+                                    <td><?php echo $unidadesM->id ?></td>
+                                    <td><?php echo $unidadesM->unidad_nombre ?></td>
+                                    <td>
+                                        <?php 
+                                            if ($unidadesM->unidad_estado == "activa"){
+                                                echo '<small class="label bg-green bg">'.$unidadesM->unidad_estado.'</small>';
+                                            }else{
+                                                echo '<small class="label bg-red">'.$unidadesM->unidad_estado.'</small>';
+                                            }
+                                             
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php echo Ajax::link("catalogos/unidadesmedida/edit/$unidadesM->id", '<i class="fa fa-edit"></i> Editar', 'myModal', 'btn btn-default btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                                    </td>
+                                </tr>
+                                <?php endforeach;?>
+                            </tbody>
+                        </table>  
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+        </div>
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+<!-- Data Table -->
+<?php echo Tag::js('AdminLTE/plugins/datatables/jquery.dataTables.min').PHP_EOL; ?>
+<?php echo Tag::js('AdminLTE/plugins/datatables/dataTables.bootstrap.min').PHP_EOL; ?>
+<script type="text/javascript">
+    $(function () {
+        $("#tableUnidadesM").DataTable({
+            responsive: true,
+            "oLanguage": {
+                "sUrl": "<?php echo PUBLIC_PATH; ?>javascript/AdminLTE/plugins/datatables/datatable.espanol.txt"	
+            },
+            "aaSorting":[[1,"asc"]]
+        });
+    });
+</script>
