@@ -6,7 +6,7 @@
  * @category    
  * @package     Controllers 
  */
-Load::models('catalogos/unidadesmedidas');
+Load::models('catalogos/unidadesm');
 
 class UnidadesmedidaController extends BackendController {
     

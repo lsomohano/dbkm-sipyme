@@ -19,6 +19,16 @@ class tipoproducto extends ActiveRecord {
         $this->has_many('productos');                        
     }
     
+    
+    /**
+     * Devuelve un array de unidades de medidas que se puede usar en un dbselect
+     * 
+     * @return array Array PHP de direcciones
+     */    
+    public function buscarTipoP() {
+        return $this->find("tip_estatus = 'activa'");
+    }
+    
     /**
      * Devuelve un array de un campo enum que se puede usar en un select
      * 

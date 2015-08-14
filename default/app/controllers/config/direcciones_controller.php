@@ -40,7 +40,8 @@ class DireccionesController extends BackendController {
                 $empresas_id = Input::request("empresas_id");
                 Flash::valid("El registro de la dirección se creo corectamente");
 //                return Router::redirect("config/empresas/edit/$empresas_id");
-                return Router::redirect($_SERVER['HTTP_REFERER']);
+//                return Router::redirect($_SERVER['HTTP_REFERER']);
+                return header('Location: '.$_SERVER['HTTP_REFERER']);    
             }
         }
         $enum = new direcciones();
@@ -62,7 +63,8 @@ class DireccionesController extends BackendController {
             }  else {
                 $empresas_id = Input::request("empresas_id");
                 Flash::valid('La direccion se actualizo corectamente');
-                return Router::redirect("config/empresas/edit/$empresas_id");
+//                return Router::redirect("config/empresas/edit/$empresas_id");
+                return header('Location: '.$_SERVER['HTTP_REFERER']);
             }
         } 
         $enum = new direcciones();
