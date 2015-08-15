@@ -1,0 +1,92 @@
+<?php Tag::css('AdminLTE/plugins/datepicker/datepicker3').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<?php echo Ajax::form('myModal', "proyectos/proyecto/create", 'form-horizontal', 'post', 'role="form"')?>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="proyecto_nombrecorto" class="col-lg-2 control-label">Proyecto</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('proyecto.nombrecorto', 'class="form-control" placeholder="Nombre de Proyecto" required', NULL)?>
+                        </div>
+                        <label for="proyecto_numerocontrato" class="col-lg-2 control-label">Numero</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('proyecto.numerocontrato', 'class="form-control" placeholder="Numero de Proyecto"', NULL)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="proyecto_empresas_id" class="col-lg-2 control-label">Empresa</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::dbSelect('proyecto.empresas_id', 'e_nombrecorto', array('config/empresas','find'), '-- Seleccione --', 'class="form-control" required') ?>
+                        </div>
+                        <label for="proyecto_clientes_id" class="col-lg-2 control-label">Cliente</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::dbSelect('proyecto.clientes_id', 'c_nombrecorto', array('config/clientes','find'), '-- Seleccione --', 'class="form-control" required') ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="proyecto_fechainicio" class="col-lg-2 control-label">Inicio</label>
+                        <div class="col-lg-4">
+                            <div class='input-group date' id='proyecto_fechainicio'>
+                                <?php echo Form::text('proyecto.fechainicio', 'class="form-control" placeholder="Fecha de inicio" required', NULL)?>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <label for="proyecto_fechafin" class="col-lg-2 control-label">Final</label>
+                        <div class="col-lg-4">
+                            <div class='input-group date' id='proyecto_fechafin'>
+                                <?php echo Form::text('proyecto.fechafin', 'class="form-control" placeholder="Fecha de fin" required', NULL)?>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="proyecto_descripcion" class="col-lg-2 control-label">Descripción</label>
+                        <div class="col-lg-10">
+                            <?php echo Form::textarea('proyecto.descripcion', 'class="form-control" placeholder="Descripcion del proyecto" required', NULL)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="proyecto_encargado" class="col-lg-2 control-label">Encargado</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('proyecto.encargado', 'class="form-control" placeholder="Encargado del proyecto" required', Session::get('nombre').' '.Session::get('apellido'))?>
+                        </div>
+                        <label for="proyecto_contacto" class="col-lg-2 control-label">Contacto</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('proyecto.contacto', 'class="form-control" placeholder="Contacto del proyecto" required', NULL)?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <?php echo Form::button('Cerrar', 'class="btn btn-default pull-left" data-dismiss="modal"') ?>
+            <?php echo Form::submit('Guardar', 'class="btn btn-primary"') ?>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<?php echo Form::close(); ?>
+<?php echo Tag::js('AdminLTE/plugins/datepicker/bootstrap-datepicker').PHP_EOL; ?>
+<?php echo Tag::js('AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.es').PHP_EOL; ?>
+<script type="text/javascript">
+    $(function () {
+        $('#proyecto_fechainicio').datepicker({
+            language: 'es',
+            format: 'yyyy-mm-dd'
+        });
+        $('#proyecto_fechafin').datepicker({
+            language: 'es',
+            format: 'yyyy-mm-dd'
+        });
+    });
+</script>

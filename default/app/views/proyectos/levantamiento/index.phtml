@@ -1,0 +1,66 @@
+<?php Tag::css('AdminLTE/plugins/select2/select2.min').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    
+    <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        
+    <?php View::flash(); ?>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Elija la empresa y el proyecto
+                        </h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <?php echo Form::open('proyectos/levantamiento/listar', 'post', 'class="form-horizontal" role="form"') ?>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-offset-3">
+                                <div class="form-group">
+                                    <label for="levanta_empresas_id" class="col-lg-2 control-label">Empresa</label>
+                                    <div class="col-lg-10">
+                                        <?php echo Form::dbSelect('levanta.empresas_id', 'e_nombrecorto', array('config/empresas','find'), '-- Seleccione Empresa --', 'class="form-control" required') ?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="levanta_proyecto_id" class="col-lg-2 control-label">Proyecto</label>
+                                    <div class="col-lg-10" id="div_proyectos">
+                                        <?php echo Form::Select('levanta.proyecto_id', array('-- Seleccione Proyecto --'),'class="form-control"'); ?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <?php echo Form::button('Cerrar', 'class="btn btn-default " data-dismiss="modal"') ?>
+                                        <?php echo Form::text('levanta.prueba')?>
+                                        <?php echo Form::submit('Guardar', 'class="btn btn-primary pull-right"') ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php echo Form::close() ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+<?php echo Tag::js('AdminLTE/plugins/select2/select2.min').PHP_EOL; ?>
+<script type="text/javascript">
+    $("#levanta_empresas_id").change(function(){
+            
+            var empresas_id = $('#levanta_empresas_id').val();
+//            document.getElementById("levanta_prueba").value = empresas_id;
+            $.ajax({
+                type: "POST",
+                url: "<?php echo PUBLIC_PATH . 'proyectos/levantamiento/getProyectos'; ?>",
+                data: "empresas_id=" + empresas_id,
+                success: function(html){
+                    $("#div_proyectos").html(html);
+                }
+            });
+        });
+</script>
