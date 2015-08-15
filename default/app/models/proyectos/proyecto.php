@@ -42,8 +42,8 @@ class proyecto extends ActiveRecord {
      * @return type
      */
     public function buscarProyectos($empresas_id){
-        $condicion  = "proyecto.empresas_id = '$empresas_id'";
-        return $this->find("condicion: $condicion", 'order: nombrecorto');
+        $condicion  = "proyecto.empresas_id = $empresas_id";
+        return $this->find($condicion, 'order: nombrecorto');
     }
     
     /**
