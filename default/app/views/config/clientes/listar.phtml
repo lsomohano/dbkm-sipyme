@@ -1,0 +1,65 @@
+<?php Tag::css('AdminLTE/plugins/datatables/dataTables.bootstrap').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<div class="content-wrapper">
+    <?php View::flash(); ?>
+    <!-- Content Header (Page header) -->
+    <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            <?php echo Html::link('config/clientes/create', '<i class="fa fa-plus"></i> Agregar Cliente','class="btn btn-primary btn-flat"')?>
+                        </h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="tableClientes" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Clave</th>
+                                    <th>Nombre</th>
+                                    <th>Razon Social</th>
+                                    <th>R.F.C.</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                 <?php foreach ($clientes as $cliente) :?>
+                                <tr>
+                                    <td><?php echo $cliente->id ?></td>
+                                    <td><?php echo $cliente->c_nombrecorto ?></td>
+                                    <td><?php echo $cliente->c_razonsocial ?></td>
+                                    <td><?php echo $cliente->c_rfc ?></td>
+                                    
+                                    <td>
+                                        <?php echo Html::link("config/clientes/edit/$cliente->id", '<i class="fa fa-edit"></i> Editar','class="btn btn-default btn-flat"')?>
+                                    </td>
+                                </tr>
+                                <?php endforeach;?>
+                            </tbody>
+                        </table>  
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+        </div>
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+<!-- Data Table -->
+<?php echo Tag::js('AdminLTE/plugins/datatables/jquery.dataTables.min').PHP_EOL; ?>
+<?php echo Tag::js('AdminLTE/plugins/datatables/dataTables.bootstrap.min').PHP_EOL; ?>
+<script type="text/javascript">
+    $(function () {
+        $("#tableClientes").DataTable({
+            responsive: true,
+            "oLanguage": {
+                "sUrl": "<?php echo PUBLIC_PATH; ?>javascript/AdminLTE/plugins/datatables/datatable.espanol.txt"	
+            },
+            "aaSorting":[[3,"asc"]]
+        });
+    });
+</script>

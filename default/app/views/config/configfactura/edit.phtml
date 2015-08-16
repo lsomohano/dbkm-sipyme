@@ -1,0 +1,86 @@
+<?php Tag::css('validation/validationEngine.jquery').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <?php echo Form::openMultipart('config/configfactura/edit', 'role="form" class="form-horizontal" id="direcciones_val"') ?>
+        <?php // echo Form::open('config/cuentas/edit', 'post', 'class="form-horizontal" role="form" id="direcciones_val"') ?>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="configfactura_seriefactura" class="col-lg-2 control-label">Serie Fac.</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('configfactura.seriefactura', 'class="form-control" placeholder="Serie de facturas"') ?>
+                        </div>
+                        <label for="configfactura_folioUentregado" class="col-lg-2 control-label">Entregados.</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('configfactura.folioUentregado', 'class="form-control" placeholder="Folio entregado" readonly') ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="configfactura_folioInicial" class="col-lg-2 control-label">Fol. Inicial</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('configfactura.folioInicial', 'class="validate[required] form-control" placeholder="Primer folio"')?>
+                        </div>
+                        <label for="configfactura_folioFinal" class="col-lg-2 control-label">Fol. Final</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('configfactura.folioFinal', 'class="validate[required] form-control" placeholder="Ultimo Folio"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="configfactura_numerocertificado" class="col-lg-2 control-label">Certificado</label>
+                        <div class="col-lg-10">
+                            <?php echo Form::text('configfactura.numerocertificado', 'class="validate[required] form-control" placeholder="Numero de certificado"') ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="configfactura_webservice" class="col-lg-2 control-label">Web Service</label>
+                        <div class="col-lg-10">
+                            <?php echo Form::text('configfactura.webservice', 'class="validate[required,custom[url]] form-control" placeholder="Direcion del webservice"') ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="configfactura_usuariotimbrado" class="col-lg-2 control-label">Usuario</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('configfactura.usuariotimbrado', 'class="validate[required] form-control" placeholder="Usuario timbrado"')?>
+                        </div>
+                        <label for="configfactura_passwordtimbrado" class="col-lg-2 control-label">Contraseña</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::pass('configfactura.passwordtimbrado', 'class="validate[required] form-control" placeholder="Contraseña timbrado"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="archivokeyPem" class="col-lg-2 control-label">Archivo key.pem</label>
+                        <div class="col-lg-10">
+                            <?php echo Form::file('a_keyPem', 'class="form-control"')?>
+                            <?php echo Form::text('configfactura.archivokeyPem', 'class="validate[required] form-control" readonly')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="archivocerPem" class="col-lg-2 control-label">Archivo cer.pem</label>
+                        <div class="col-lg-10">
+                            <?php echo Form::file('a_cerPem', 'class="form-control"')?>
+                            <?php echo Form::text('configfactura.archivocerPem', 'class="validate[required] form-control" readonly')?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <?php echo Form::hidden('configfactura.id')?>
+            <?php echo Form::hidden('empresas_id', NULL, $empresa_id)?>
+            <?php echo Form::button('Cerrar', 'class="btn btn-default pull-left" data-dismiss="modal"') ?>
+            <?php echo Form::submit('Guardar', 'class="btn btn-primary"') ?>
+        </div>
+        <?php Form::close() ?>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<?php echo Tag::js('validation/jquery.validationEngine-es').PHP_EOL; ?>
+<?php echo Tag::js('validation/jquery.validationEngine').PHP_EOL; ?>
+<script type="text/javascript">
+    $("#direcciones_val").validationEngine();
+</script>

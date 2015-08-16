@@ -1,0 +1,95 @@
+<?php Tag::css('validation/validationEngine.jquery').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <?php // echo Ajax::form('myModal', "config/direcciones/create", 'form-horizontal', 'post', 'role="form" id="direcciones_val"')?>
+        <?php echo Form::open('config/direcciones/edit', 'post', 'class="form-horizontal" role="form" id="direcciones_val"') ?>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="direcciones_nombre" class="col-lg-3 control-label">Nombre</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('direcciones.nombre_dir', 'class="validate[required] form-control" placeholder="Nombre direcciones"')?>
+                        </div>
+                        <label for="direcciones_tipo_dir" class="col-lg-2 control-label">Tipo</label>
+                        <div class="col-lg-3">
+                            <?php echo Form::Select('direcciones.tipo_dir', $tipo,'class="validate[required] form-control" style="width: 100%; padding: 2px"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direcciones_calle" class="col-lg-3 control-label">Calle</label>
+                        <div class="col-lg-9">
+                            <?php echo Form::text('direcciones.calle', 'class="validate[required] form-control" placeholder="Calle"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direcciones_noexterior" class="col-lg-3 control-label">Num. Exterior</label>
+                        <div class="col-lg-3">
+                            <?php echo Form::text('direcciones.num_esterior', 'class="form-control" placeholder="Exterior"')?>
+                        </div>
+                        <label for="direcciones_nointerior" class="col-lg-3 control-label">Num. Interior</label>
+                        <div class="col-lg-3">
+                            <?php echo Form::text('direcciones.num_interior', 'class="form-control" placeholder="Interior"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direcciones_referencia" class="col-lg-3 control-label">Referencia</label>
+                        <div class="col-lg-9">
+                            <?php echo Form::text('direcciones.referencia', 'class="form-control" placeholder="Entre que calles"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direcciones_colonia" class="col-lg-3 control-label">Colonia</label>
+                        <div class="col-lg-5">
+                            <?php echo Form::text('direcciones.colonia', 'class="form-control" placeholder="Colonia"')?>
+                        </div>
+                        <label for="direcciones_codigo_postal" class="col-lg-1 control-label">C.P.</label>
+                        <div class="col-lg-3">
+                            <?php echo Form::text('direcciones.codigo_postal', 'class="validate[required] form-control" placeholder="C.P."')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direcciones_localidad" class="col-lg-3 control-label">Localidad</label>
+                        <div class="col-lg-9">
+                            <?php echo Form::text('direcciones.localidad', 'class="validate[required] form-control" placeholder="Localiad"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direcciones_municipio" class="col-lg-3 control-label">Municipio</label>
+                        <div class="col-lg-9">
+                            <?php echo Form::text('direcciones.municipio', 'class="form-control" placeholder="Municipio"')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direcciones_estado" class="col-lg-3 control-label">Estado</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('direcciones.estado', 'class="form-control" placeholder="Estado"')?>
+                        </div>
+                        <label for="direcciones_pais" class="col-lg-1 control-label">Pais</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('direcciones.pais', 'class="form-control" placeholder="Pais"')?>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <?php echo Form::hidden('direcciones.id')?>
+            <?php echo Form::hidden('empresas_id', NULL, $empresa_id)?>
+            <?php echo Form::button('Cerrar', 'class="btn btn-default pull-left" data-dismiss="modal"') ?>
+            <?php echo Form::submit('Guardar', 'class="btn btn-primary"') ?>
+        </div>
+        <?php Form::close() ?>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<?php echo Tag::js('validation/jquery.validationEngine-es').PHP_EOL; ?>
+<?php echo Tag::js('validation/jquery.validationEngine').PHP_EOL; ?>
+<script type="text/javascript">
+    $("#direcciones_val").validationEngine();
+</script>

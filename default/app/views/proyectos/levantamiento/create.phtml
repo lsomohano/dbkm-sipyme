@@ -1,0 +1,60 @@
+<?php Tag::css('AdminLTE/plugins/datepicker/datepicker3').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<?php echo Ajax::form('myModal', "proyectos/levantamiento/create", 'form-horizontal', 'post', 'role="form"')?>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="levantamiento_lev_fecha" class="col-lg-3 control-label">Fecha</label>
+                        <div class="col-lg-4">
+                            <div class='input-group date' id='proyecto_fechainicio'>
+                                <?php echo Form::text('levantamiento.lev_fecha', 'class="form-control" placeholder="Fecha de inicio" required', NULL)?>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="levantamiento_lev_observa" class="col-lg-3 control-label">Observaciones</label>
+                        <div class="col-lg-9">
+                            <?php echo Form::textarea('levantamiento.lev_observa', 'class="form-control" placeholder="Descripcion del proyecto" required', NULL)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="levantamiento_lev_realizo" class="col-lg-3 control-label">Realizo</label>
+                        <div class="col-lg-9">
+                            <?php echo Form::text('levantamiento.lev_realizo', 'class="form-control" placeholder="Encargado del proyecto" required', Session::get('nombre').' '.Session::get('apellido'))?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <?php echo Form::text('levantamiento.id',NULL,$proyecto_id)?>
+            <?php echo Form::button('Cerrar', 'class="btn btn-default pull-left" data-dismiss="modal"') ?>
+            <?php echo Form::submit('Guardar', 'class="btn btn-primary"') ?>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<?php echo Form::close(); ?>
+<?php echo Tag::js('AdminLTE/plugins/datepicker/bootstrap-datepicker').PHP_EOL; ?>
+<?php echo Tag::js('AdminLTE/plugins/datepicker/locales/bootstrap-datepicker.es').PHP_EOL; ?>
+<script type="text/javascript">
+    $(function () {
+        $('#proyecto_fechainicio').datepicker({
+            language: 'es',
+            format: 'yyyy-mm-dd'
+        });
+        $('#proyecto_fechafin').datepicker({
+            language: 'es',
+            format: 'yyyy-mm-dd'
+        });
+    });
+</script>

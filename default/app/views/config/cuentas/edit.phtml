@@ -1,0 +1,60 @@
+<?php Tag::css('validation/validationEngine.jquery').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <?php // echo Ajax::form('myModal', "config/direcciones/create", 'form-horizontal', 'post', 'role="form" id="direcciones_val"')?>
+        <?php echo Form::open('config/cuentas/edit', 'post', 'class="form-horizontal" role="form" id="direcciones_val"') ?>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="cuentas_bancos_id" class="col-lg-2 control-label">Banco</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::dbSelect('cuentas.bancos_id', 'b_nombrecorto', array('bancos','buscarBancos'), '-- Seleccione --', 'class="validate[required] form-control"') ?>
+                        </div>
+                        <label for="cuentas_cuenta" class="col-lg-1 control-label">Cuenta</label>
+                        <div class="col-lg-5">
+                            <?php echo Form::text('cuentas.cuenta', 'class="validate[required] form-control" placeholder="Cuenta"') ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cuentas_sucursal" class="col-lg-2 control-label">Sucursal</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('cuentas.sucursal', 'class="form-control" placeholder="Sucursal"')?>
+                        </div>
+                        <label for="cuentas_claveinterbancaria" class="col-lg-1 control-label">Clave</label>
+                        <div class="col-lg-5">
+                            <?php echo Form::text('cuentas.claveinterbancaria', 'class="form-control" placeholder="Clave interban."')?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cuentas_cu_referencia" class="col-lg-2 control-label">Referencia</label>
+                        <div class="col-lg-4">
+                            <?php echo Form::text('cuentas_cu_referencia', 'class="form-control" placeholder="Referencia"')?>
+                        </div>
+                        <label for="cuentas_monedas_id" class="col-lg-1 control-label">Moneda</label>
+                        <div class="col-lg-5">
+                            <?php echo Form::dbSelect('cuentas.monedas_id', 'm_nombre', array('monedas','buscarMonedas'), '-- Seleccione --', 'class="validate[required] form-control"') ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <?php echo Form::hidden('cuentas.id')?>
+            <?php echo Form::hidden('empresas_id', NULL, $empresa_id)?>
+            <?php echo Form::button('Cerrar', 'class="btn btn-default pull-left" data-dismiss="modal"') ?>
+            <?php echo Form::submit('Guardar', 'class="btn btn-primary"') ?>
+        </div>
+        <?php Form::close() ?>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<?php echo Tag::js('validation/jquery.validationEngine-es').PHP_EOL; ?>
+<?php echo Tag::js('validation/jquery.validationEngine').PHP_EOL; ?>
+<script type="text/javascript">
+    $("#direcciones_val").validationEngine();
+</script>

@@ -1,0 +1,69 @@
+<?php Tag::css('AdminLTE/plugins/datatables/dataTables.bootstrap').PHP_EOL ?>
+<?php echo Html::includeCss(); ?>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    
+    <?php View::processAdminLTE($page_module, $page_title, $set_title); ?>
+        
+    <?php View::flash(); ?>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            <?php echo Ajax::link("proyectos/levantamiento/create/$levantamientos->", '<i class="fa fa-plus"></i> Nuevo Levantamiento', 'myModal', 'btn btn-primary btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                        </h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="tablelevantamiento" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Clave</th>
+                                    <th>Fecha</th>
+                                    <th>Observaciones</th>
+                                    <th>Realizo</th>
+                                    <th>Proyecto</th>
+                                    <th>Estatus</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                 <?php foreach ($levantamientos as $levantamiento) :?>
+                                <tr>
+                                    <td><?php echo $levantamiento->id ?></td></td>
+                                    <td><?php echo $levantamiento->lev_fecha ?></td>
+                                    <td><?php echo $levantamiento->lev_observa ?></td>
+                                    <td><?php echo $levantamiento->lev_realizo ?></td>
+                                    <td><?php echo $levantamiento->nombrecorto ?></td>
+                                    <td><?php echo $levantamiento->lev_status ?></td>
+                                    <td>
+                                        <?php echo Ajax::link("proyectos/proyecto/edit/$levantamiento->id", '<i class="fa fa-edit"></i> Editar', 'myModal', 'btn btn-default btn-flat', 'data-toggle="modal" data-target="#myModal"')?>
+                                    </td>
+                                </tr>
+                                <?php endforeach;?>
+                            </tbody>
+                        </table>  
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+        </div>
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+<!-- Data Table -->
+<?php echo Tag::js('AdminLTE/plugins/datatables/jquery.dataTables.min').PHP_EOL; ?>
+<?php echo Tag::js('AdminLTE/plugins/datatables/dataTables.bootstrap.min').PHP_EOL; ?>
+<script type="text/javascript">
+    $(function () {
+        $("#tablelevantamiento").DataTable({
+            responsive: true,
+            "oLanguage": {
+                "sUrl": "<?php echo PUBLIC_PATH; ?>javascript/AdminLTE/plugins/datatables/datatable.espanol.txt"	
+            },
+            "aaSorting":[[3,"asc"]]
+        });
+    });
+</script>
